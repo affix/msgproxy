@@ -1,0 +1,46 @@
+[package]
+name = "msgproxy"
+version = "0.1.0"
+edition = "2021"
+description = "A SOCKS5 proxy tunnelled through a chat platform"
+
+[dependencies]
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "net", "io-util", "sync", "time"] }
+tokio-rustls = "0.26"
+# rustls 0.24 exists only as a -dev pre-release; 0.23 is the current stable.
+rustls = "0.23"
+webpki-roots = "1.0"
+async-trait = "0.1"
+clap = { version = "4", features = ["derive", "env"] }
+base64 = "0.23"
+fernet = "0.2"
+pbkdf2 = "0.13"
+sha2 = "0.11"
+hmac = "0.13"
+hex = "0.4"
+anyhow = "1"
+thiserror = "2"
+
+# whatsapp: Graph API client + the webhook server Meta calls back on
+# 0.13 renamed the TLS feature "rustls-tls" to "rustls"; from 0.13.4 that also
+# brings the platform certificate verifier, so no separate roots feature.
+reqwest = { version = "0.13", default-features = false, features = ["json", "rustls"] }
+axum = "0.8"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# discord: gateway + REST
+serenity = { version = "0.12", default-features = false, features = [
+    "client", "gateway", "model", "http", "builder", "utils", "rustls_backend",
+] }
+
+# direct websocket transport
+tokio-tungstenite = "0.30"
+futures-util = "0.3"
+tokio-xmpp = "6"
+
+[dev-dependencies]
+tokio = { version = "1", features = ["full"] }
+# `query` is only needed by the webhook-verification test; keeping it dev-only
+# leaves it out of the shipped binary.
+reqwest = { version = "0.13", default-features = false, features = ["json", "rustls", "query"] }

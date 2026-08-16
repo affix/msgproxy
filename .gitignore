@@ -1,0 +1,23 @@
+# Rust build artefacts
+/target/
+**/*.rs.bk
+
+# Cargo.lock is committed for binaries (this crate is one) so builds are
+# reproducible; remove this note if it ever becomes a library.
+
+# Editors / tooling
+.idea/
+.vscode/
+*.swp
+*~
+
+.claude/settings.local.json
+
+# OS noise
+.DS_Store
+Thumbs.db
+
+# Local config and secrets — bot tokens, app secrets, passphrases
+.env
+.env.*
+*.local.toml
